@@ -1,0 +1,30 @@
+name: Maven Build kkFileView
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kkfileview-jar
+          path: server/target/*.jar
