@@ -2,8 +2,6 @@ name: Maven Build kkFileView
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
 
 jobs:
   build:
