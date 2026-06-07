@@ -1,4 +1,15 @@
-FROM keking/kkfileview-base:5.0.0
-ADD server/target/kkFileView-*.tar.gz /opt/
-ENV KKFILEVIEW_BIN_FOLDER=/opt/kkFileView-5.0.0/bin
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Dspring.config.location=/opt/kkFileView-5.0.0/config/application.properties","-jar","/opt/kkFileView-5.0.0/bin/kkFileView-5.0.0.jar"]
+FROM eclipse-temurin:17-jre-jammy
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    libreoffice \
+    fonts-dejavu \
+    fontconfig \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY server/target/*.jar app.jar
+
+EXPOSE 8012
+
+ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-jar","app.jar"]
